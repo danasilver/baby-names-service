@@ -1,0 +1,28 @@
+{
+  "name": "baby-names-service",
+  "version": "1.0.0",
+  "description": "Baby names as a service.",
+  "main": "index.js",
+  "scripts": {
+    "start": "./bin/www",
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danasilver/baby-names-service.git"
+  },
+  "author": "Dana Silver <dsilver1221@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danasilver/baby-names-service/issues"
+  },
+  "homepage": "https://github.com/danasilver/baby-names-service#readme",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "dsv": "0.0.5",
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "supertest": "^1.2.0"
+  }
+}
