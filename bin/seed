@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+const MongoClient = require('mongodb').MongoClient;
+const debug = require('debug')('seed');
+const getNames = require('../data/parse-names');
+
+const url = process.env.MONGODB_URI ||
+  'mongodb://localhost:27017/baby-names-service';
+let db = null;
+
+MongoClient.connect(url)
+.then(_db => {
+  debug('Connected to db.');
+  db = _db;
+  const collection = db.collection('names');
+  return collection.createIndex({name: 1, gender: 1});
+})
+.then(index => {
+  debug('Created index %s.', index);
+  const names = getNames();
+  const collection = db.collection('names');
+  return collection.insertMany(names);
+})
+.then(r => {
+  debug('Inserted %s documents.', r.insertedCount);
+  return db.close();
+})
+.then(() => {
+  debug('Database connection closed.');
+})
+.catch(err => {
+  throw err;
+});

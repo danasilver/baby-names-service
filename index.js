@@ -1,23 +1,33 @@
-const csv = require('dsv').csv;
 const express = require('express');
-const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
+const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 
+const url = process.env.MONGODB_URI ||
+  'mongodb://localhost:27017/baby-names-service';
+
 app.get('/:name/:gender', (req, res) => {
   const {name, gender} = req.params;
-  lookup(name, gender)
-  .then((names) => { res.json(names); });
-});
+  let db = null;
 
-const lookup = (name, gender) => {
-  return fs.readFileAsync('./names1880-2012.csv', 'utf-8')
-  .then(names => {
-    names = csv.parse(names);
-
-    return names.filter(n => n.name === name && n.gender === gender);
+  MongoClient.connect(url)
+  .then(_db => {
+    db = _db;
+    const names = db.collection('names');
+    return names.find({name, gender}, {_id: 0}).toArray();
+  })
+  .then(documents => {
+    if (documents.length) {
+      res.json(documents);
+    } else {
+      res.sendStatus(404);
+    }
+    return db.close();
+  })
+  .catch(err => {
+    res.sendStatus(500);
+    throw err;
   });
-};
+});
 
 module.exports = app;

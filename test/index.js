@@ -14,3 +14,17 @@ request(app)
     if (err) throw err;
     assert.deepEqual(res.body, expected);
   });
+
+request(app)
+  .get('/Dana/G')
+  .expect(404)
+  .end((err, res) => {
+    if (err) throw err;
+  });
+
+request(app)
+  .get('/')
+  .expect(404)
+  .end((err, res) => {
+    if (err) throw err;
+  });

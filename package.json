@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./bin/www",
+    "seed": "./bin/seed",
     "test": "node test"
   },
   "repository": {
@@ -18,11 +19,12 @@
   },
   "homepage": "https://github.com/danasilver/baby-names-service#readme",
   "dependencies": {
-    "bluebird": "^3.4.1",
-    "dsv": "0.0.5",
-    "express": "^4.14.0"
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.0"
   },
   "devDependencies": {
+    "d3-dsv": "^1.0.0",
     "supertest": "^1.2.0"
   },
   "engines": {
