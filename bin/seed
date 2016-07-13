@@ -18,6 +18,7 @@ MongoClient.connect(url)
 .then(index => {
   debug('Created index %s.', index);
   const names = getNames();
+  debug('Read %s names.', names.length);
   const collection = db.collection('names');
   return collection.insertMany(names);
 })
