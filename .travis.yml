@@ -1,10 +1,11 @@
 language: node_js
 node_js:
   - "6"
+env:
+  global:
+    - DEBUG=*
 services:
   - mongodb
+sudo: required
 before_script:
-  - sleep 15
   - npm run seed
-env:
-  DEBUG=*
