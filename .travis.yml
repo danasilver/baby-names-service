@@ -6,3 +6,5 @@ services:
 before_script:
   - sleep 15
   - npm run seed
+env:
+  DEBUG=*
