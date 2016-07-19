@@ -1,10 +1,14 @@
 const express = require('express');
+const compression = require('compression');
 const MongoClient = require('mongodb').MongoClient;
+const path = require('path');
 
 const app = express();
 
 const url = process.env.MONGODB_URI ||
   'mongodb://localhost:27017/baby-names-service';
+
+app.use(compression());
 
 app.get('/:name/:gender', (req, res) => {
   const {name, gender} = req.params;
@@ -28,6 +32,11 @@ app.get('/:name/:gender', (req, res) => {
     res.sendStatus(500);
     throw err;
   });
+});
+
+app.get('/index', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.sendFile(path.resolve(__dirname, 'data/generated-index.json'));
 });
 
 module.exports = app;

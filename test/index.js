@@ -28,3 +28,12 @@ request(app)
   .end((err, res) => {
     if (err) throw err;
   });
+
+request(app)
+  .get('/index')
+  .expect(200)
+  .end((err, res) => {
+    if (err) throw err;
+    const expected = {name: 'Mary', gender: 'F'};
+    assert.deepEqual(JSON.parse(res.body)[0], expected);
+  })

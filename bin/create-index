@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
+const getNames = require('../data/parse-names');
+
+const dataDir = path.resolve(__dirname, '..', 'data');
+
+const index = _(getNames())
+.map(name => {
+  return {name: name.name, gender: name.gender};
+})
+.uniqBy(name => `${name.name}${name.gender}`)
+.thru(JSON.stringify)
+.value();
+
+fs.writeFileSync(path.join(dataDir, 'generated-index.js'), index);
