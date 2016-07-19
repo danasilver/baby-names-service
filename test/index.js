@@ -31,9 +31,10 @@ request(app)
 
 request(app)
   .get('/index')
+  .expect('Content-Type', /json/)
   .expect(200)
   .end((err, res) => {
     if (err) throw err;
     const expected = {name: 'Mary', gender: 'F'};
-    assert.deepEqual(JSON.parse(res.body)[0], expected);
+    assert.deepEqual(res.body[0], expected);
   })
