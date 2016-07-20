@@ -13,17 +13,26 @@ MongoClient.connect(url)
   debug('Connected to db.');
   db = _db;
   const collection = db.collection('names');
-  return collection.createIndex({name: 1, gender: 1});
+  return collection.find().count();
 })
-.then(index => {
-  debug('Created index %s.', index);
+.then(count => {
+  debug('Found %s names.', count);
+
   const names = getNames();
   debug('Read %s names.', names.length);
+
+  if (count >= names.length)
+    return Promise.resolve();
+
   const collection = db.collection('names');
   return collection.insertMany(names);
 })
-.then(r => {
-  debug('Inserted %s documents.', r.insertedCount);
+.then(() => {
+  const collection = db.collection('names');
+  return collection.createIndex({name: 1, gender: 1});
+})
+.then((index) => {
+  debug('Created index %s.', index);
   return db.close();
 })
 .then(() => {
