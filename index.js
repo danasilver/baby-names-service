@@ -44,4 +44,8 @@ app.get('/index', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'data/generated-index.json'));
 });
 
+app.get('/ok', (req, res) => {
+  res.sendStatus(200);
+});
+
 module.exports = app;

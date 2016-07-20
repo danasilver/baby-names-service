@@ -36,4 +36,11 @@ request(app)
     if (err) throw err;
     const expected = {name: 'Mary', gender: 'F'};
     assert.deepEqual(res.body[0], expected);
-  })
+  });
+
+request(app)
+  .get('/ok')
+  .expect(200)
+  .end((err, res) => {
+    if (err) throw err;
+  });
