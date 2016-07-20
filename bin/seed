@@ -16,18 +16,24 @@ MongoClient.connect(url)
   return collection.find().count();
 })
 .then(count => {
-  debug('Found %s names.', count);
+  debug('Found %s names in db.', count);
 
   const names = getNames();
-  debug('Read %s names.', names.length);
+  debug('Read %s names from fixture.', names.length);
 
   if (count >= names.length)
-    return Promise.resolve();
+    return Promise.resolve(count);
 
   const collection = db.collection('names');
   return collection.insertMany(names);
 })
-.then(() => {
+.then((result) => {
+  if (result.insertedCount) {
+    debug('Inserted %s documents.', result.insertedCount);
+  } else {
+    debug('Not adding names. Found %s in db.', result);
+  }
+
   const collection = db.collection('names');
   return collection.createIndex({name: 1, gender: 1});
 })
