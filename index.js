@@ -1,5 +1,6 @@
 const express = require('express');
 const compression = require('compression');
+const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const path = require('path');
 
@@ -9,6 +10,10 @@ const url = process.env.MONGODB_URI ||
   'mongodb://localhost:27017/baby-names-service';
 
 app.use(compression());
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors({origin: [/^http:\/\/localhost:/, /danasilver\.org$/]}));
+}
 
 app.get('/:name/:gender', (req, res) => {
   const {name, gender} = req.params;
