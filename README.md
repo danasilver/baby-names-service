@@ -6,6 +6,8 @@ Run queries on the [baby names](https://github.com/danasilver/baby-names-service
 
 ### API
 
+#### Lookup
+
 ```
 GET /:name/:gender
 ```
@@ -33,3 +35,34 @@ specified name and gender.
   }
 ]
 ```
+
+#### Index
+
+```
+GET /index
+```
+
+Responds with JSON containing an index of the names and genders in the
+dataset.
+
+```
+[
+  {
+    "name": "Mary",
+    "gender":"F"
+  },
+  {
+    "name": "Anna",
+    "gender": "F"
+  },
+  ...
+]
+```
+
+#### Health Check
+
+```
+GET /ok
+```
+
+Health check endpoint. Response with a HTTP `200 OK` status.
